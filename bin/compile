@@ -22,7 +22,7 @@ echo "-----> Installing testssl.sh version: $TESTSSL_VERSION"
 
 echo "Downloading testssl.sh" | indent
 mkdir -p "$TESTSSL_BASE_PATH"
-curl --silent --retry 5 $TESTSSL_URL --output $TESTSSL_PATH
+curl --silent --retry 5 --location $TESTSSL_URL --output $TESTSSL_PATH
 chmod u+x $TESTSSL_PATH
 
 echo "Exporting PATH" | indent
