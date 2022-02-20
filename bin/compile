@@ -1,0 +1,31 @@
+#!/bin/sh
+# bin/compile BUILD_DIR CACHE_DIR ENV_DIR
+
+set -u # stop on unset variables
+set -e # stop on error
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+ENV_DIR=${3:-}
+BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
+
+TESTSSL_VERSION="3.0.7"
+TESTSSL_URL="https://github.com/drwetter/testssl.sh/raw/v${TESTSSL_VERSION}/testssl.sh"
+TESTSSL_BASE_PATH="$BUILD_DIR/.heroku/testssl/bin"
+TESTSSL_PATH="$TESTSSL_BASE_PATH/testssl.sh"
+
+echo "-----> Installing testssl.sh version: $TESTSSL_VERSION"
+
+echo "Downloading testssl.sh" | indent
+mkdir -p "$TESTSSL_BASE_PATH"
+curl --silent --retry 5 $TESTSSL_URL --output $TESTSSL_PATH
+
+echo "Exporting PATH" | indent
+echo "export PATH=\"\$PATH:$TESTSSL_BASE_PATH\"" > $BP_DIR/export
+
+echo "Testing binary" | indent
+$TESTSSL_PATH --version
