@@ -19,21 +19,21 @@ BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
 TESTSSL_VERSION="3.0.7"
 TESTSSL_URL="https://github.com/drwetter/testssl.sh/raw/v${TESTSSL_VERSION}/testssl.sh"
-TESTSSL_BASE_PATH="$BUILD_DIR/.heroku/testssl/bin"
+TESTSSL_BASE_PATH="$BP_DIR/.heroku/testssl/bin"
 TESTSSL_PATH="$TESTSSL_BASE_PATH/testssl.sh"
 
 mkdir -p "$TESTSSL_BASE_PATH"
 
-topic "Downloading testssl.sh v$TESTSSL_VERSION" | indent
+topic "Downloading testssl.sh v$TESTSSL_VERSION"
 curl --silent --retry 5 --location $TESTSSL_URL --output $TESTSSL_PATH
 chmod u+x $TESTSSL_PATH
 
 # give environment to later buildpacks
 echo "export PATH=\"\$PATH:$TESTSSL_BASE_PATH\"" > $BP_DIR/export
 
-topic "Writing profile script" | indent
+topic "Writing profile script"
 mkdir -p $BUILD_DIR/.profile.d
 echo "export PATH=\"\$PATH:$TESTSSL_BASE_PATH\"" > $BUILD_DIR/.profile.d/testssl-path.sh
 
-topic "Testing testssl.sh v$TESTSSL_VERSION" | indent
+topic "Testing testssl.sh v$TESTSSL_VERSION"
 WARNINGS=off $TESTSSL_PATH --version
