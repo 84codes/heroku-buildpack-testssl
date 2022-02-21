@@ -21,7 +21,7 @@ TESTSSL_TARBALL_URL="https://github.com/drwetter/testssl.sh/archive/refs/tags/v$
 TESTSSL_TARBALL_PATH="/tmp/testssl.tar.gz"
 TESTSSL_EXTRACT_DIR="/tmp/testssl.sh-${TESTSSL_VERSION}"
 TESTSSL_SCRIPT_PATH="$BUILD_DIR/bin/testssl.sh"
-TESTSSL_INSTALL_DIR="$BUILD_DIR/.heroku/testssl/"
+TESTSSL_INSTALL_DIR="$BUILD_DIR/vendor/testssl"
 
 mkdir -p "$BUILD_DIR/bin"
 mkdir -p "$TESTSSL_INSTALL_DIR"
