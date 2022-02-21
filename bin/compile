@@ -17,16 +17,32 @@ CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 
 TESTSSL_VERSION="3.0.7"
-TESTSSL_URL="https://github.com/drwetter/testssl.sh/raw/v${TESTSSL_VERSION}/testssl.sh"
-TESTSSL_BASE_PATH="$BUILD_DIR/bin"
-TESTSSL_PATH="$TESTSSL_BASE_PATH/testssl.sh"
+TESTSSL_TARBALL_URL="https://github.com/drwetter/testssl.sh/archive/refs/tags/v${TESTSSL_VERSION}.tar.gz"
+TESTSSL_TARBALL_PATH="/tmp/testssl.tar.gz"
+TESTSSL_EXTRACT_DIR="/tmp/testssl.sh-${TESTSSL_VERSION}"
+TESTSSL_SCRIPT_PATH="$BUILD_DIR/bin/testssl.sh"
+TESTSSL_INSTALL_DIR="$BUILD_DIR/.heroku/testssl/"
 
-mkdir -p "$TESTSSL_BASE_PATH"
+mkdir -p "$BUILD_DIR/bin"
+mkdir -p "$TESTSSL_INSTALL_DIR"
 
 topic "Installing testssl.sh v$TESTSSL_VERSION"
+
 echo "Downloading $TESTSSL_URL" | indent
-curl --silent --retry 5 --location $TESTSSL_URL --output $TESTSSL_PATH
-chmod u+x $TESTSSL_PATH
+curl --silent --retry 5 --location $TESTSSL_URL --output $TESTSSL_TARBALL_PATH
+
+echo "Extracting download" | indent
+tar xzf $TESTSSL_TARBALL_PATH -C /tmp
+mv ${TESTSSL_EXTRACT_DIR}/etc $TESTSSL_INSTALL_DIR
+mv ${TESTSSL_EXTRACT_DIR}/testssl.sh $TESTSSL_SCRIPT_PATH
+chmod u+x $TESTSSL_SCRIPT_PATH
+
+echo "Writing profile script" | indent
+mkdir -p $BUILD_DIR/.profile.d
+echo "export WARNINGS=off" > $BUILD_DIR/.profile.d/testssl.sh
+echo "export TESTSSL_INSTALL_DIR=$TESTSSL_INSTALL_DIR" >> $BUILD_DIR/.profile.d/testssl.sh
+
+source $BUILD_DIR/.profile.d/testssl.sh
 
 topic "Testing testssl.sh v$TESTSSL_VERSION"
-WARNINGS=off $TESTSSL_PATH --version
+$TESTSSL_PATH --version
