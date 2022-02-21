@@ -40,7 +40,7 @@ chmod u+x $TESTSSL_SCRIPT_PATH
 echo "Writing profile script" | indent
 mkdir -p $BUILD_DIR/.profile.d
 echo "export WARNINGS=off" > $BUILD_DIR/.profile.d/testssl.sh
-echo "export TESTSSL_INSTALL_DIR=$TESTSSL_INSTALL_DIR" >> $BUILD_DIR/.profile.d/testssl.sh
+echo "export TESTSSL_INSTALL_DIR=$HOME/vendor/testssl" >> $BUILD_DIR/.profile.d/testssl.sh
 
 source $BUILD_DIR/.profile.d/testssl.sh
 
