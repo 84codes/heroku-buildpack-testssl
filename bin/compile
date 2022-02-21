@@ -45,4 +45,4 @@ echo "export TESTSSL_INSTALL_DIR=$TESTSSL_INSTALL_DIR" >> $BUILD_DIR/.profile.d/
 source $BUILD_DIR/.profile.d/testssl.sh
 
 topic "Testing testssl.sh v$TESTSSL_VERSION"
-$TESTSSL_PATH --version
+$TESTSSL_SCRIPT_PATH --version
