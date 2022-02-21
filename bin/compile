@@ -27,6 +27,7 @@ chmod u+x $TESTSSL_PATH
 
 echo "Exporting PATH" | indent
 echo "export PATH=\"\$PATH:$TESTSSL_BASE_PATH\"" > $BP_DIR/export
+echo "export PATH=\"\$PATH:$TESTSSL_BASE_PATH\"" > $BP_DIR/.profile.d/testssl-path.sh
 
 echo "Testing binary" | indent
 WARNINGS=off $TESTSSL_PATH --version
