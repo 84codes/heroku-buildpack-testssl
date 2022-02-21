@@ -28,8 +28,8 @@ mkdir -p "$TESTSSL_INSTALL_DIR"
 
 topic "Installing testssl.sh v$TESTSSL_VERSION"
 
-echo "Downloading $TESTSSL_URL" | indent
-curl --silent --retry 5 --location $TESTSSL_URL --output $TESTSSL_TARBALL_PATH
+echo "Downloading $TESTSSL_TARBALL_URL" | indent
+curl --silent --retry 5 --location $TESTSSL_TARBALL_URL --output $TESTSSL_TARBALL_PATH
 
 echo "Extracting download" | indent
 tar xzf $TESTSSL_TARBALL_PATH -C /tmp
