@@ -8,6 +8,10 @@ indent() {
   sed -u 's/^/       /'
 }
 
+function topic() {
+  echo "-----> $*"
+}
+
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
@@ -18,16 +22,18 @@ TESTSSL_URL="https://github.com/drwetter/testssl.sh/raw/v${TESTSSL_VERSION}/test
 TESTSSL_BASE_PATH="$BUILD_DIR/.heroku/testssl/bin"
 TESTSSL_PATH="$TESTSSL_BASE_PATH/testssl.sh"
 
-echo "-----> Installing testssl.sh version: $TESTSSL_VERSION"
-
-echo "Downloading testssl.sh" | indent
 mkdir -p "$TESTSSL_BASE_PATH"
+
+topic "Downloading testssl.sh v$TESTSSL_VERSION" | indent
 curl --silent --retry 5 --location $TESTSSL_URL --output $TESTSSL_PATH
 chmod u+x $TESTSSL_PATH
 
-echo "Exporting PATH" | indent
+# give environment to later buildpacks
 echo "export PATH=\"\$PATH:$TESTSSL_BASE_PATH\"" > $BP_DIR/export
-echo "export PATH=\"\$PATH:$TESTSSL_BASE_PATH\"" > $BP_DIR/.profile.d/testssl-path.sh
 
-echo "Testing binary" | indent
+topic "Writing profile script" | indent
+mkdir -p $BUILD_DIR/.profile.d
+echo "export PATH=\"\$PATH:$TESTSSL_BASE_PATH\"" > $BUILD_DIR/.profile.d/testssl-path.sh
+
+topic "Testing testssl.sh v$TESTSSL_VERSION" | indent
 WARNINGS=off $TESTSSL_PATH --version
