@@ -4,10 +4,10 @@
 
 Usage:
 
-    heroku buildpacks:set https://github.com/dentarg/heroku-buildpack-testssl
+    heroku buildpacks:set https://github.com/84codes/heroku-buildpack-testssl
 
     # if you use multiple buildpacks
-    heroku buildpacks:add --index 2 https://github.com/dentarg/heroku-buildpack-testssl
+    heroku buildpacks:add --index 2 https://github.com/84codes/heroku-buildpack-testssl
 
 See the Heroku documentation for more information:
 
