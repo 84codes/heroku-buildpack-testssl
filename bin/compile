@@ -16,7 +16,7 @@ BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 
-TESTSSL_VERSION="3.0.8"
+TESTSSL_VERSION="3.2.1"
 TESTSSL_TARBALL_URL="https://github.com/drwetter/testssl.sh/archive/refs/tags/v${TESTSSL_VERSION}.tar.gz"
 TESTSSL_TARBALL_PATH="/tmp/testssl.tar.gz"
 TESTSSL_EXTRACT_DIR="/tmp/testssl.sh-${TESTSSL_VERSION}"
